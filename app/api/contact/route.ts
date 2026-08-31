@@ -22,8 +22,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const destinationEmail = process.env.CONTACT_DESTINATION_EMAIL?.trim() || 'fabio.sousa8dev@gmail.com';
-    const resendApiKey = process.env.RESEND_API_KEY?.trim();
+    const reqEnv = (request as unknown as { env?: Record<string, string> }).env;
+    const resendApiKey =
+      process.env.RESEND_API_KEY?.trim() ||
+      (globalThis as unknown as Record<string, string>).RESEND_API_KEY?.trim() ||
+      reqEnv?.RESEND_API_KEY?.trim();
+
+    const destinationEmail =
+      process.env.CONTACT_DESTINATION_EMAIL?.trim() ||
+      (globalThis as unknown as Record<string, string>).CONTACT_DESTINATION_EMAIL?.trim() ||
+      reqEnv?.CONTACT_DESTINATION_EMAIL?.trim() ||
+      'fabio.sousa8dev@gmail.com';
 
     const emailSubject = `Novo Lead KNDev's Solutions: ${name} (${solutionType})`;
     const htmlBody = `
@@ -44,32 +53,32 @@ export async function POST(request: Request) {
       </div>
     `;
 
-    if (resendApiKey) {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'KNDevs Landing Page <onboarding@resend.dev>',
-          to: [destinationEmail],
-          subject: emailSubject,
-          html: htmlBody,
-        }),
-      });
+    if (!resendApiKey) {
+      console.error('RESEND_API_KEY não foi encontrada no ambiente.');
+      return NextResponse.json(
+        { error: 'Canal de e-mail em configuração no servidor (RESEND_API_KEY ausente).' },
+        { status: 500 }
+      );
+    }
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Resend API Error:', errorText);
-        return NextResponse.json({ error: 'Erro ao disparar e-mail.' }, { status: 500 });
-      }
-    } else {
-      console.log('--- NOVO LEAD RECEBIDO ---');
-      console.log(`Para: ${destinationEmail}`);
-      console.log(`Assunto: ${emailSubject}`);
-      console.log(`Nome: ${name}, Contato: ${contact}, Solução: ${solutionType}`);
-      console.log(`Descrição: ${description}`);
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${resendApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'KNDevs Landing Page <onboarding@resend.dev>',
+        to: [destinationEmail],
+        subject: emailSubject,
+        html: htmlBody,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Resend API Error:', errorText);
+      return NextResponse.json({ error: `Erro no serviço de e-mail Resend: ${errorText}` }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, message: 'Mensagem recebida com sucesso!' });
