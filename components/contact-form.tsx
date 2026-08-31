@@ -103,7 +103,7 @@ export function ContactForm() {
         : null;
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit} noValidate>
+    <form className="contact-form" method="post" onSubmit={handleSubmit} noValidate>
       <div className="form-grid">
         <div className="field">
           <label htmlFor="name">Nome <span aria-hidden="true">*</span></label>
