@@ -23,7 +23,6 @@ export function ContactForm() {
   const [status, setStatus] = useState<FormStatus>('idle');
   const [statusMessage, setStatusMessage] = useState('');
   const lastAttempt = useRef(0);
-  const endpoint = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT?.trim();
 
   function updateField<K extends keyof ContactFields>(key: K, value: ContactFields[K]) {
     setFields((current) => ({ ...current, [key]: value }));
@@ -58,18 +57,14 @@ export function ContactForm() {
       return;
     }
 
-    if (!endpoint) {
-      setStatus('unconfigured');
-      setStatusMessage('O canal de envio ainda não está configurado. Seus dados não foram enviados.');
-      return;
-    }
+    const targetEndpoint = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT?.trim() || '/api/contact';
 
     lastAttempt.current = now;
     setStatus('loading');
     setStatusMessage('Enviando sua mensagem…');
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(targetEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
