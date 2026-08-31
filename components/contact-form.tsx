@@ -78,14 +78,26 @@ export function ContactForm() {
         }),
       });
 
-      if (!response.ok) throw new Error(`Contact endpoint returned ${response.status}`);
+      if (!response.ok) {
+        let serverMsg = '';
+        try {
+          const errBody = await response.json() as { error?: string };
+          serverMsg = errBody?.error || '';
+        } catch {
+          serverMsg = `Servidor retornou status ${response.status}`;
+        }
+        throw new Error(serverMsg);
+      }
       setStatus('success');
       setStatusMessage('Mensagem enviada. Obrigado! Vamos analisar sua necessidade.');
       setFields(initialFields);
       setErrors({});
-    } catch {
+    } catch (err) {
       setStatus('error');
-      setStatusMessage('Não foi possível enviar agora. Tente novamente em alguns instantes.');
+      const msg = err instanceof Error && err.message
+        ? err.message
+        : 'Não foi possível enviar agora. Tente novamente em alguns instantes.';
+      setStatusMessage(msg);
     }
   }
 
