@@ -8,7 +8,14 @@ const spaceGrotesk = Space_Grotesk({ variable: '--font-space-grotesk', subsets: 
 export const metadata: Metadata = {
   title: "KNDev's Solutions | Software sob medida e consultoria",
   description: 'Transformamos ideias e necessidades reais em sistemas, aplicativos, automações e soluções digitais sob medida para o seu negócio.',
-  keywords: ['software sob medida', 'desenvolvimento de sistemas', 'aplicativos', 'automação', 'MVP', 'consultoria em tecnologia'],
+  keywords: ['software sob medida', 'desenvolvimento de sistemas', 'aplicativos', 'automação', 'MVP', 'consultoria em tecnologia', 'manutenção e evolução'],
+  icons: {
+    icon: [
+      { url: '/icon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/logo.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [{ url: '/logo.png', sizes: '180x180', type: 'image/png' }],
+  },
   openGraph: {
     type: 'website', locale: 'pt_BR', siteName: "KNDev's Solutions",
     title: "KNDev's Solutions | Software sob medida e consultoria",

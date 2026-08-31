@@ -4,7 +4,7 @@ import { CSSProperties, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowDownRight, ArrowRight, Boxes, Braces, Check, ChevronRight, CircleDot,
-  Gauge, Layers3, Lightbulb, Menu, MessageSquareCode, Minus, Network, Rocket,
+  Gauge, Layers3, Lightbulb, Menu, MessageSquareCode, Minus, Network, RefreshCw, Rocket,
   Smartphone, Sparkles, Workflow, X,
 } from 'lucide-react';
 import { ContactForm } from '@/components/contact-form';
@@ -19,6 +19,7 @@ const iconMap: Record<ServiceIcon, typeof Braces> = {
   automation: Workflow,
   mvp: Rocket,
   consulting: MessageSquareCode,
+  maintenance: RefreshCw,
 };
 
 function SectionHeading({ eyebrow, title, text, light = false }: { eyebrow: string; title: string; text?: string; light?: boolean }) {
@@ -56,7 +57,7 @@ function Header() {
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="container header-inner">
         <a className="brand" href="#inicio" aria-label="KNDev's Solutions — início" onClick={() => setOpen(false)}>
-          <img src="/kndevs-horizontal.png" alt="KNDev's Solutions" width="512" height="192" fetchPriority="high" />
+          <img src="/logomarca.png" alt="KNDev's Solutions" width="512" height="192" fetchPriority="high" />
         </a>
         <nav className="desktop-nav" aria-label="Navegação principal">
           {navigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
@@ -295,7 +296,7 @@ function Footer() {
   return (
     <footer className="site-footer">
       <div className="container footer-main">
-        <div><a className="footer-brand" href="#inicio" aria-label="KNDev's Solutions — início"><img src="/kndevs-horizontal.png" alt="KNDev's Solutions" width="512" height="192" loading="lazy" /></a><p>Fábrica de softwares &amp; consultoria.</p></div>
+        <div><a className="footer-brand" href="#inicio" aria-label="KNDev's Solutions — início"><img src="/logomarca.png" alt="KNDev's Solutions" width="512" height="192" loading="lazy" /></a><p>Fábrica de softwares &amp; consultoria.</p></div>
         <nav aria-label="Navegação do rodapé">{navigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
         <div className="official-channels"><span>Canais oficiais</span><p>Use o formulário desta página enquanto os demais canais são configurados.</p><a href="#contato">Iniciar contato <ArrowRight aria-hidden="true" /></a></div>
       </div>
