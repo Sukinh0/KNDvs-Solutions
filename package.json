@@ -39,8 +39,6 @@
     "@cloudflare/vite-plugin": "^1.54.2",
     "@cloudflare/workers-types": "^5.20260831.1",
     "@openai/sites-vite-plugin": "0.2.0",
-    "@oxlint/binding-win32-x64-msvc": "^1.76.0",
-    "@rolldown/binding-win32-x64-msvc": "^1.0.1",
     "@tailwindcss/postcss": "4.2.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
