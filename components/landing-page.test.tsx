@@ -47,6 +47,15 @@ describe('LandingPage interactions', () => {
     expect(screen.getByText('O canal de envio ainda não está configurado. Seus dados não foram enviados.')).toBeInTheDocument();
   });
 
+  it('renders all 6 services and uses the official brand logo', () => {
+    render(<LandingPage />);
+    expect(screen.getByRole('heading', { name: 'Manutenção e evolução' })).toBeInTheDocument();
+    expect(screen.getAllByRole('article').length).toBeGreaterThanOrEqual(6);
+    const logoImgs = screen.getAllByAltText("KNDev's Solutions");
+    expect(logoImgs.length).toBeGreaterThanOrEqual(2);
+    logoImgs.forEach((img) => expect(img).toHaveAttribute('src', '/logomarca.png'));
+  });
+
   it('does not prepare reveal animations when reduced motion is preferred', () => {
     const defaultMatchMedia = window.matchMedia;
     Object.defineProperty(window, 'matchMedia', {

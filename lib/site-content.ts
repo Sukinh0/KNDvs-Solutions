@@ -1,4 +1,4 @@
-export type ServiceIcon = 'web' | 'mobile' | 'automation' | 'mvp' | 'consulting';
+export type ServiceIcon = 'web' | 'mobile' | 'automation' | 'mvp' | 'consulting' | 'maintenance';
 
 export interface Service {
   id: string;
@@ -70,6 +70,13 @@ export const services: Service[] = [
     solution: 'Análise do cenário e orientação técnica antes ou durante o desenvolvimento.',
     result: 'Decisões mais conscientes e um caminho viável para executar.',
   },
+  {
+    id: 'manutencao-evolucao', number: '06', icon: 'maintenance', title: 'Manutenção e evolução',
+    summary: 'Melhorias contínuas e ajustes estruturais para software já existente.',
+    problem: 'Sistemas lentos, desatualizados ou com falhas que travam a operação.',
+    solution: 'Diagnóstico, correção de falhas e implementação de novas funcionalidades com segurança.',
+    result: 'Software estável, atualizado e pronto para continuar crescendo.',
+  },
 ];
 
 export const benefits = [
@@ -89,7 +96,7 @@ export const processSteps = [
 ];
 
 export const solutionTypes = [
-  'Sistemas web', 'Aplicativos', 'Automações', 'MVP', 'Consultoria em tecnologia', 'Ainda não sei',
+  'Sistemas web', 'Aplicativos', 'Automações', 'MVP', 'Consultoria em tecnologia', 'Manutenção e evolução', 'Ainda não sei',
 ];
 
 export interface Project {
