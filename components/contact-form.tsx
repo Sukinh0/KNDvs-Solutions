@@ -23,7 +23,7 @@ export function ContactForm() {
   const [status, setStatus] = useState<FormStatus>('idle');
   const [statusMessage, setStatusMessage] = useState('');
   const lastAttempt = useRef(0);
-  const endpoint = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT?.trim();
+  const endpoint = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT?.trim() || '/api/contact';
 
   function updateField<K extends keyof ContactFields>(key: K, value: ContactFields[K]) {
     setFields((current) => ({ ...current, [key]: value }));

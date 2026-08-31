@@ -36,7 +36,10 @@ describe('LandingPage interactions', () => {
     expect(screen.getByText('Informe um e-mail ou WhatsApp válido.')).toBeInTheDocument();
   });
 
-  it('never reports success when the contact endpoint is not configured', () => {
+  it('submits contact data successfully using the native /api/contact endpoint', async () => {
+    const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValueOnce(
+      new Response(JSON.stringify({ success: true, message: 'Mensagem enviada.' }), { status: 200 })
+    );
     render(<LandingPage />);
     fireEvent.change(screen.getByLabelText('Nome *'), { target: { value: 'Ana' } });
     fireEvent.change(screen.getByLabelText('E-mail ou WhatsApp *'), { target: { value: 'ana@empresa.com' } });
@@ -44,7 +47,13 @@ describe('LandingPage interactions', () => {
     fireEvent.change(screen.getByLabelText('Sua ideia ou necessidade *'), { target: { value: 'Precisamos centralizar um processo manual importante.' } });
     fireEvent.click(screen.getByLabelText(/Li e aceito a política/));
     fireEvent.click(screen.getByRole('button', { name: /Quero conversar sobre minha ideia/ }));
-    expect(screen.getByText('O canal de envio ainda não está configurado. Seus dados não foram enviados.')).toBeInTheDocument();
+
+    expect(fetchSpy).toHaveBeenCalledWith('/api/contact', expect.objectContaining({
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    }));
+    expect(await screen.findByText('Mensagem enviada. Obrigado! Vamos analisar sua necessidade.')).toBeInTheDocument();
+    fetchSpy.mockRestore();
   });
 
   it('renders all 6 services and uses the official brand logo', () => {
