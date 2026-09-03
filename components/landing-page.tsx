@@ -219,6 +219,17 @@ function ServicesSection() {
 
 function BenefitsSection() {
   const icons = [Workflow, Layers3, Gauge, Sparkles, Network, Lightbulb];
+  const [expandedBenefits, setExpandedBenefits] = useState<Set<number>>(() => new Set());
+
+  function toggleBenefit(index: number) {
+    setExpandedBenefits((current) => {
+      const next = new Set(current);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
+      return next;
+    });
+  }
+
   return (
     <section className="benefits-section section-light" aria-labelledby="benefits-title">
       <div className="container benefits-layout">
@@ -229,7 +240,25 @@ function BenefitsSection() {
         <div className="benefits-grid">
           {benefits.map((benefit, index) => {
             const Icon = icons[index];
-            return <article className="benefit-card" key={benefit.title} data-reveal><span className="benefit-index">0{index + 1}</span><Icon aria-hidden="true" /><h3>{benefit.title}</h3><p>{benefit.text}</p></article>;
+            const active = expandedBenefits.has(index);
+            return (
+              <article className={`benefit-card${active ? ' is-active' : ''}`} key={benefit.title}>
+                <span className="benefit-index">0{index + 1}</span>
+                <Icon aria-hidden="true" />
+                <h3>{benefit.title}</h3>
+                <p id={`benefit-detail-${index}`}>{benefit.text}</p>
+                <span className="benefit-hint" aria-hidden="true">{active ? '−' : '+'}</span>
+                <button
+                  className="benefit-toggle"
+                  type="button"
+                  aria-expanded={active}
+                  aria-controls={`benefit-detail-${index}`}
+                  onClick={() => toggleBenefit(index)}
+                >
+                  <span className="sr-only">{active ? `Ocultar detalhes de ${benefit.title}` : `Ver detalhes de ${benefit.title}`}</span>
+                </button>
+              </article>
+            );
           })}
         </div>
       </div>
