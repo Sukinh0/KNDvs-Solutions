@@ -3,7 +3,7 @@
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
-  ArrowDownRight, ArrowRight, Boxes, Braces, Check, ChevronRight, CircleDot,
+  ArrowDownRight, ArrowRight, Boxes, Braces, Check, ChevronDown, ChevronRight, CircleDot,
   Gauge, Layers3, Lightbulb, Menu, MessageSquareCode, Minus, Network, RefreshCw, Rocket,
   Smartphone, Sparkles, Workflow, X,
 } from 'lucide-react';
@@ -167,7 +167,7 @@ function ProblemsSection() {
 }
 
 function ServicesSection() {
-  const [activeId, setActiveId] = useState(services[0].id);
+  const [activeId, setActiveId] = useState<string | null>(null);
   return (
     <section className="services-section section-light" id="solucoes" aria-labelledby="services-title">
       <div className="container">
@@ -183,14 +183,21 @@ function ServicesSection() {
               <article key={service.id} className={`service-card${active ? ' is-active' : ''}`} data-reveal>
                 <div className="service-top"><span className="service-number">{service.number}</span><Icon aria-hidden="true" /></div>
                 <h3>{service.title}</h3><p className="service-summary">{service.summary}</p>
-                <div className="service-flow" aria-label={`Fluxo de ${service.title}`}>
+                <button
+                  className="service-select"
+                  type="button"
+                  aria-expanded={active}
+                  aria-controls={`service-details-${service.id}`}
+                  onClick={() => setActiveId(active ? null : service.id)}
+                >
+                  <span>{active ? 'Ocultar detalhes' : 'Ver detalhes'}</span>
+                  <ChevronDown className={active ? 'is-open' : ''} aria-hidden="true" />
+                </button>
+                <div className="service-flow" id={`service-details-${service.id}`} aria-label={`Fluxo de ${service.title}`}>
                   <div><span>Problema</span><p>{service.problem}</p></div><ArrowRight aria-hidden="true" />
                   <div><span>Solução</span><p>{service.solution}</p></div><ArrowRight aria-hidden="true" />
                   <div><span>Resultado</span><p>{service.result}</p></div>
                 </div>
-                <button className="service-select" type="button" aria-pressed={active} onClick={() => setActiveId(service.id)}>
-                  {active ? 'Solução em destaque' : `Destacar ${service.title}`}
-                </button>
               </article>
             );
           })}

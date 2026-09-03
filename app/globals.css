@@ -226,9 +226,9 @@ h1 { font-size: clamp(3rem,4.6vw,4.5rem); }
 .service-flow > svg { width: 16px; align-self: center; color: #7890dc; }
 .service-flow span { color: var(--color-primary); font-size: .68rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
 .service-flow p { margin: 7px 0 0; color: #596478; font-size: .78rem; line-height: 1.48; }
-.service-select { display: inline-flex; min-height: 44px; align-items: center; margin-top: 18px; padding: 0; border: 0; background: transparent; color: var(--color-primary); font-size: .75rem; font-weight: 800; letter-spacing: .04em; }
-.service-select::before { width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: #a7b2c7; content: ''; transition: background-color 180ms ease, transform 180ms ease; }
-.service-select[aria-pressed='true']::before { transform: scale(1.25); background: var(--color-coral); }
+.service-select { display: none; width: 100%; min-height: 46px; align-items: center; justify-content: space-between; margin-top: 18px; padding: 0; border: 0; border-top: 1px solid #e2e7f1; background: transparent; color: var(--color-primary); font-size: .78rem; font-weight: 800; letter-spacing: .03em; text-align: left; }
+.service-select svg { width: 18px; height: 18px; transition: transform 220ms ease; }
+.service-select svg.is-open { transform: rotate(180deg); }
 .service-select:focus-visible { border-radius: 4px; outline-color: var(--color-primary); }
 
 /* Benefits */
@@ -379,22 +379,31 @@ h1 { font-size: clamp(3rem,4.6vw,4.5rem); }
 }
 
 @media (max-width: 760px) {
-  .section-dark, .section-light { padding: 80px 0; }
+  .section-dark, .section-light { padding: 64px 0; }
   .section-heading-row, .final-cta-inner { grid-template-columns: 1fr; gap: 24px; }
   .transformation-panel { padding: 16px; }
-  .transformation-grid { grid-template-columns: 1fr; gap: 12px; }
-  .transform-bridge { min-height: 52px; transform: rotate(90deg); }
-  .transform-bridge span { width: 52px; }
+  .transformation-grid { display: block; }
+  .state-card:not(.is-active), .transform-bridge { display: none; }
   .state-card { padding: 24px; }
   .services-grid { grid-template-columns: 1fr; margin-top: 42px; }
   .service-card:nth-child(5) { grid-column: auto; }
+  .service-card { padding: 24px 20px; transform: none; }
+  .service-card h3 { margin-top: 18px; }
+  .service-summary { min-height: 0; }
+  .service-select { display: flex; }
+  .service-card:not(.is-active) .service-flow { display: none; }
   .service-flow { grid-template-columns: 1fr; }
   .service-flow > svg { transform: rotate(90deg); justify-self: center; }
   .benefits-grid { grid-template-columns: 1fr; }
-  .benefit-card { min-height: auto; padding: 28px; }
-  .benefit-card h3 { margin-top: 36px; }
-  .process-timeline { grid-template-columns: 1fr; margin-top: 48px; gap: 38px; }
-  .process-step { opacity: .7; }
+  .benefit-card { display: grid; min-height: auto; padding: 20px; grid-template-columns: 38px 1fr; gap: 5px 14px; }
+  .benefit-card > svg { grid-row: 1 / 3; width: 30px; height: 30px; }
+  .benefit-card h3 { margin: 0; padding-right: 32px; }
+  .benefit-card p { grid-column: 2; }
+  .benefit-index { top: 21px; right: 20px; }
+  .process-timeline { grid-template-columns: 1fr; margin-top: 40px; gap: 12px; }
+  .process-step { min-height: 104px; padding: 18px 18px 18px 66px; border: 1px solid rgba(115,140,191,.16); border-radius: 12px; background: rgba(7,20,38,.34); opacity: .72; }
+  .step-dot { top: 18px; left: 18px; }
+  .process-step h3 { margin-top: 6px; }
   .form-grid { grid-template-columns: 1fr; }
   .field-full { grid-column: auto; }
   .form-actions { align-items: stretch; flex-direction: column; }
@@ -416,7 +425,6 @@ h1 { font-size: clamp(3rem,4.6vw,4.5rem); }
   .flow-caption-out { max-width: 105px; text-align: right; }
   .transformation-tabs { width: 100%; }
   .transformation-tabs button { min-width: 0; flex: 1; }
-  .service-card { padding: 24px 20px; }
   .about-mark span { font-size: .62rem; }
   .contact-form { padding: 22px 16px; }
   .final-cta h2 { font-size: 2.65rem; }
