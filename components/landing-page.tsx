@@ -167,7 +167,17 @@ function ProblemsSection() {
 }
 
 function ServicesSection() {
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
+
+  function toggleService(serviceId: string) {
+    setExpandedIds((current) => {
+      const next = new Set(current);
+      if (next.has(serviceId)) next.delete(serviceId);
+      else next.add(serviceId);
+      return next;
+    });
+  }
+
   return (
     <section className="services-section section-light" id="solucoes" aria-labelledby="services-title">
       <div className="container">
@@ -178,9 +188,9 @@ function ServicesSection() {
         <div className="services-grid">
           {services.map((service) => {
             const Icon = iconMap[service.icon];
-            const active = activeId === service.id;
+            const active = expandedIds.has(service.id);
             return (
-              <article key={service.id} className={`service-card${active ? ' is-active' : ''}`} data-reveal>
+              <article key={service.id} className={`service-card${active ? ' is-active' : ''}`}>
                 <div className="service-top"><span className="service-number">{service.number}</span><Icon aria-hidden="true" /></div>
                 <h3>{service.title}</h3><p className="service-summary">{service.summary}</p>
                 <button
@@ -188,7 +198,7 @@ function ServicesSection() {
                   type="button"
                   aria-expanded={active}
                   aria-controls={`service-details-${service.id}`}
-                  onClick={() => setActiveId(active ? null : service.id)}
+                  onClick={() => toggleService(service.id)}
                 >
                   <span>{active ? 'Ocultar detalhes' : 'Ver detalhes'}</span>
                   <ChevronDown className={active ? 'is-open' : ''} aria-hidden="true" />
