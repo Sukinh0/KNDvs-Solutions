@@ -23,10 +23,11 @@ describe('LandingPage interactions', () => {
     render(<LandingPage />);
     const before = screen.getByRole('button', { name: 'Antes' });
     const after = screen.getByRole('button', { name: 'Depois' });
-    expect(after).toHaveAttribute('aria-pressed', 'true');
-    fireEvent.click(before);
     expect(before).toHaveAttribute('aria-pressed', 'true');
     expect(after).toHaveAttribute('aria-pressed', 'false');
+    fireEvent.click(after);
+    expect(before).toHaveAttribute('aria-pressed', 'false');
+    expect(after).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('shows validation errors without submitting incomplete data', () => {

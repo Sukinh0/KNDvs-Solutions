@@ -138,7 +138,7 @@ function Hero() {
 }
 
 function ProblemsSection() {
-  const [view, setView] = useState<'before' | 'after'>('after');
+  const [view, setView] = useState<'before' | 'after'>('before');
   return (
     <section className="problems-section section-dark" id="problemas" aria-labelledby="problems-title">
       <div className="container">

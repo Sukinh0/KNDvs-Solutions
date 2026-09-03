@@ -30,5 +30,13 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="pt-BR"><body className={`${inter.variable} ${spaceGrotesk.variable}`}>{children}</body></html>;
+  return (
+    <html lang="pt-BR">
+      <head>
+        <meta name="color-scheme" content="only light" />
+        <meta name="supported-color-schemes" content="light" />
+      </head>
+      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>{children}</body>
+    </html>
+  );
 }
